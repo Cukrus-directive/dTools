@@ -1,0 +1,2 @@
+$pcname = read-host -prompt 'Name of the computer'
+Get-WmiObject -class win32_service -ComputerName $pcname
