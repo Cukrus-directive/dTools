@@ -1,0 +1,10 @@
+#checks the predict fail flag on SMART
+
+$computers = (gc C:\temp\computers.txt).split(“,”) 
+
+(invoke-command -computerName $computers -scriptblock  {
+
+
+Get-WmiObject win32_diskdrive |Select-Object caption,status 
+
+}) |out-gridview -title "Drive status"
