@@ -1,0 +1,15 @@
+#grab the entries to check
+$computers = (gc C:\temp\computers.txt).split(“,”) 
+#measure the index (not INT converted)
+$average = invoke-command -computerName $computers -scriptblock {
+
+    (Get-Ciminstance Win32_ReliabilityStabilityMetrics |
+    Measure-Object -Average systemStabilityIndex | select average)}
+ 
+
+#loop through every computer and execute log if index lower than 6
+foreach ($entry in $average){ 
+if ($entry.average -lt 6) {
+
+    get-wmiobject Win32_ReliabilityRecords -property Message | 
+    select-object -first 10 Message | format-list *}}
